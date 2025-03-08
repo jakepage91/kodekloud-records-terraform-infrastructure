@@ -10,11 +10,10 @@ crash.log
 crash.*.log
 
 # Exclude all .tfvars files, which are likely to contain sensitive data
-*.tfvars
-*.tfvars.json
-!terraform.tfvars
+# *.tfvars
+# *.tfvars.json
 
-# Ignore override files as they are usually used for local dev
+# Ignore override files
 override.tf
 override.tf.json
 *_override.tf
@@ -22,4 +21,18 @@ override.tf.json
 
 # Ignore CLI configuration files
 .terraformrc
-terraform.rc 
+terraform.rc
+
+# Ignore lock files
+.terraform.lock.hcl
+
+# Ignore any downloaded modules
+.terraform/modules/
+.terraform/providers/
+
+# Ignore any log files
+*.log
+
+# Ignore any backup files
+*.bak
+*~
