@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"ec2","Source":"./modules/ec2-instance","Dir":"modules/ec2-instance"},{"Key":"eks","Source":"./modules/eks-cluster","Dir":"modules/eks-cluster"},{"Key":"eks_cluster","Source":"../../modules/eks-cluster","Dir":""},{"Key":"iam_users","Source":"./modules/iam-user","Dir":"modules/iam-user"}]}
