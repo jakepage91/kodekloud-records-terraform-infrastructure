@@ -23,3 +23,20 @@ resource "aws_iam_user_policy" "inline_policy" {
   user   = aws_iam_user.new_users[count.index].name
   policy = var.inline_policy_document
 }
+
+data "aws_iam_user" "existing_users" {
+  for_each = toset(var.iam_usernames)
+  user_name = each.value
+}
+
+resource "aws_iam_user" "new_users" {
+  for_each = { for user in var.iam_usernames : user => user if data.aws_iam_user.existing_users[user] == null }
+  name     = each.value
+  path     = "/"
+
+  lifecycle {
+    ignore_changes = [
+      name
+    ]
+  }
+}
