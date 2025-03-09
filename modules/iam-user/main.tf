@@ -1,42 +1,35 @@
 resource "aws_iam_user" "new_users" {
-  count = length(var.iam_usernames)
-  name  = var.iam_usernames[count.index]
-  path  = "/"
+  for_each = toset(var.iam_usernames)
+  name     = each.value
+  path     = "/"
+  
+  # Prevent Terraform from trying to update existing users
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_iam_access_key" "user_keys" {
-  count = length(var.iam_usernames)
-  user  = aws_iam_user.new_users[count.index].name
+  for_each = aws_iam_user.new_users
+  user     = each.value.name
 }
 
 # Attach managed policies to users
 resource "aws_iam_user_policy_attachment" "user_policy_attachments" {
-  count      = length(var.iam_usernames) * length(var.managed_policy_arns)
-  user       = aws_iam_user.new_users[count.index % length(var.iam_usernames)].name
-  policy_arn = var.managed_policy_arns[floor(count.index / length(var.iam_usernames))]
+  for_each   = {
+    for pair in setproduct(keys(aws_iam_user.new_users), var.managed_policy_arns) : "${pair[0]}-${pair[1]}" => {
+      user       = pair[0]
+      policy_arn = pair[1]
+    }
+  }
+  user       = aws_iam_user.new_users[each.value.user].name
+  policy_arn = each.value.policy_arn
 }
 
 # Create and attach inline policy if provided
 resource "aws_iam_user_policy" "inline_policy" {
-  count  = length(var.iam_usernames) * (var.inline_policy_document != null ? 1 : 0)
-  name   = "${var.iam_usernames[count.index]}-inline-policy"
-  user   = aws_iam_user.new_users[count.index].name
-  policy = var.inline_policy_document
-}
-
-data "aws_iam_user" "existing_users" {
-  for_each = toset(var.iam_usernames)
-  user_name = each.value
-}
-
-resource "aws_iam_user" "new_users" {
-  for_each = { for user in var.iam_usernames : user => user if data.aws_iam_user.existing_users[user] == null }
-  name     = each.value
-  path     = "/"
-
-  lifecycle {
-    ignore_changes = [
-      name
-    ]
-  }
+  for_each = var.inline_policy_document != null ? aws_iam_user.new_users : {}
+  name     = "${each.value.name}-inline-policy"
+  user     = each.value.name
+  policy   = var.inline_policy_document
 }
