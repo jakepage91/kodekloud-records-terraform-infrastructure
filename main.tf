@@ -40,6 +40,19 @@ module "iam_users" {
           "arn:aws:s3:::dev-bucket/*"
         ]
       }
+      ,
+#      {
+#        Action = [
+#          "s3:CreateBucket",
+#          "s3:PutObject",
+#          "s3:PutObjectAcl"
+#        ]
+#        Effect   = "Allow"
+#        Resource = [
+#          "arn:aws:s3:::dev-bucket",
+#          "arn:aws:s3:::dev-bucket/*"
+#        ]
+#      }
     ]
   })
 }
