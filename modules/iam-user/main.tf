@@ -3,7 +3,7 @@
 #  name     = each.value
 #  path     = "/"
   
-  # Prevent Terraform from trying to update existing users
+#  # Prevent Terraform from trying to update existing users
 #  lifecycle {
 #    ignore_changes = all
 #  }
