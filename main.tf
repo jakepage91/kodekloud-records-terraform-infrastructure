@@ -5,7 +5,7 @@ terraform {
   # You'll need to run terraform init -reconfigure after first applying
   backend "s3" {
     key     = "global/terraform.tfstate"
-    region  = "us-east-1"
+    region  = "eu-north-1"
     encrypt = true
     # The bucket name will be set during terraform init with -backend-config
     bucket  = "terraform-state-kodekloud-jake-page"
