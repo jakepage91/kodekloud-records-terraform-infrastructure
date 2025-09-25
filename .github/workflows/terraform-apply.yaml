@@ -3,7 +3,8 @@ name: Terraform Apply
 on:
   push:
     branches:
-      - main
+    #  - main
+    - dev
 
 jobs:
   terraform:

@@ -8,7 +8,7 @@ terraform {
     region  = "us-east-1"
     encrypt = true
     # The bucket name will be set during terraform init with -backend-config
-    # bucket  = "unique-bucket-name-will-be-set-via-backend-config"
+    bucket  = "terraform-state-kodekloud-jake-page"
   }
 }
 
