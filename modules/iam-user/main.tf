@@ -1,13 +1,13 @@
-#resource "aws_iam_user" "new_users" {
-#  for_each = toset(var.iam_usernames)
-#  name     = each.value
-#  path     = "/"
+resource "aws_iam_user" "new_users" {
+ for_each = toset(var.iam_usernames)
+ name     = each.value
+ path     = "/"
   
-#  # Prevent Terraform from trying to update existing users
-#  lifecycle {
-#    ignore_changes = all
-#  }
-#}
+ # Prevent Terraform from trying to update existing users
+ lifecycle {
+   ignore_changes = all
+ }
+}
 
 resource "aws_iam_access_key" "user_keys" {
   for_each = aws_iam_user.new_users
