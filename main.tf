@@ -21,9 +21,9 @@ resource "random_id" "bucket_suffix" {
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "terraform-state-${random_id.bucket_suffix.hex}"
   
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Enable versioning for the state bucket
