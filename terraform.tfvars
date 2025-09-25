@@ -1,4 +1,4 @@
-aws_region = "eu-north-1"
+aws_region = "eu-east-1"
 
 iam_usernames = [
   "iamuser-pablo",
